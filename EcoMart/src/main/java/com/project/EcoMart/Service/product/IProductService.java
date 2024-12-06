@@ -3,10 +3,11 @@ package com.project.EcoMart.Service.product;
 import java.util.List;
 
 import com.project.EcoMart.Model.Product;
+import com.project.EcoMart.request.AddProductRequest;
 
 public interface IProductService {
 
-	Product addProduct(Product product);
+	Product addProduct(AddProductRequest product);
 
 	Product getProductById(Long id);
 
