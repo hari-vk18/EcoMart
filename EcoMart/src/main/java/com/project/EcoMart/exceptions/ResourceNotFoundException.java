@@ -1,8 +1,8 @@
 package com.project.EcoMart.exceptions;
 
-public class ProductNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends RuntimeException {
 
-	public ProductNotFoundException(String message) {
+	public ResourceNotFoundException(String message) {
 		super(message);
 		// TODO Auto-generated constructor stub
 	}
