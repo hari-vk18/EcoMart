@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.EcoMart.Model.Category;
 import com.project.EcoMart.Model.Product;
-import com.project.EcoMart.exceptions.ProductNotFoundException;
+import com.project.EcoMart.exceptions.ResourceNotFoundException;
 import com.project.EcoMart.repository.CategoryRepository;
 import com.project.EcoMart.repository.ProductRepository;
 import com.project.EcoMart.request.AddProductRequest;
@@ -46,14 +46,14 @@ public class ProductService implements IProductService {
 	@Override
 	public Product getProductById(Long id) {
 		// TODO Auto-generated method stub
-		return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found!"));
+		return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
 	}
 
 	@Override
 	public void deleteProductById(Long id) {
 		// TODO Auto-generated method stub
 		productRepository.findById(id).ifPresentOrElse(productRepository::delete, () -> {
-			throw new ProductNotFoundException("Product not found!");
+			throw new ResourceNotFoundException("Product not found!");
 		});
 	}
 
@@ -62,7 +62,7 @@ public class ProductService implements IProductService {
 		// TODO Auto-generated method stub
 
 		return productRepository.findById(productId).map(existingProd -> updateExistingProduct(existingProd, product))
-				.map(productRepository::save).orElseThrow(() -> new ProductNotFoundException("Product not found!"));
+				.map(productRepository::save).orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
 	}
 
 	private Product updateExistingProduct(Product existingProd, UpdateProductRequest Request) {
