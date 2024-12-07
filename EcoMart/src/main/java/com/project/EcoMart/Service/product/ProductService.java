@@ -1,14 +1,18 @@
 package com.project.EcoMart.Service.product;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.EcoMart.Model.Category;
 import com.project.EcoMart.Model.Product;
 import com.project.EcoMart.exceptions.ProductNotFoundException;
+import com.project.EcoMart.repository.CategoryRepository;
 import com.project.EcoMart.repository.ProductRepository;
 import com.project.EcoMart.request.AddProductRequest;
+import com.project.EcoMart.request.UpdateProductRequest;
 
 @Service
 public class ProductService implements IProductService {
@@ -16,11 +20,27 @@ public class ProductService implements IProductService {
 	@Autowired
 	private ProductRepository productRepository;
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
 	@Override
 	public Product addProduct(AddProductRequest request) {
 		// TODO Auto-generated method stub
 
-		return null;
+		Category category = Optional.ofNullable(categoryRepository.findByName(request.getCategory().getName()))
+				.orElseGet(() -> {
+					Category newCategory = new Category(request.getCategory().getName());
+					return categoryRepository.save(newCategory);
+				});
+		request.setCategory(category);
+		return productRepository.save(createProduct(request, category));
+	}
+
+	private Product createProduct(AddProductRequest request, Category category) {
+
+		return new Product(request.getName(), request.getBrand(), request.getInventory(), request.getPrice(),
+				request.getDescription(), category);
+
 	}
 
 	@Override
@@ -38,9 +58,24 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public void updateProductById(Product product, Long productId) {
+	public Product updateProductById(UpdateProductRequest product, Long productId) {
 		// TODO Auto-generated method stub
 
+		return productRepository.findById(productId).map(existingProd -> updateExistingProduct(existingProd, product))
+				.map(productRepository::save).orElseThrow(() -> new ProductNotFoundException("Product not found!"));
+	}
+
+	private Product updateExistingProduct(Product existingProd, UpdateProductRequest Request) {
+		existingProd.setName(Request.getName());
+		existingProd.setBrand(Request.getBrand());
+		existingProd.setPrice(Request.getPrice());
+		existingProd.setDescription(Request.getDescription());
+		existingProd.setInventory(Request.getInventory());
+
+		Category category = categoryRepository.findByName(Request.getCategory().getName());
+		existingProd.setCategory(category);
+
+		return existingProd;
 	}
 
 	@Override
