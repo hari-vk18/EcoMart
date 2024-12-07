@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.project.EcoMart.Model.Product;
 import com.project.EcoMart.request.AddProductRequest;
+import com.project.EcoMart.request.UpdateProductRequest;
 
 public interface IProductService {
 
@@ -13,7 +14,7 @@ public interface IProductService {
 
 	void deleteProductById(Long id);
 
-	void updateProductById(Product product, Long productId);
+	Product updateProductById(UpdateProductRequest product, Long productId);
 
 	List<Product> getAllProducts();
 
