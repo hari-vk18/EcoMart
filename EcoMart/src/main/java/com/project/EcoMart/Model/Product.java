@@ -36,17 +36,14 @@ public class Product {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Product(Long id, String name, String brand, BigDecimal price, int inventory, String description,
-			Category category, List<Image> images) {
+	public Product(String name, String brand, int inventory, BigDecimal price, String description, Category category) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.brand = brand;
 		this.price = price;
 		this.inventory = inventory;
 		this.description = description;
 		this.category = category;
-		this.images = images;
 	}
 
 	public Long getId() {
