@@ -31,6 +31,11 @@ public class Category {
 		this.products = products;
 	}
 
+	public Category(String name2) {
+		// TODO Auto-generated constructor stub
+		this.name = name2;
+	}
+
 	public Long getId() {
 		return id;
 	}
