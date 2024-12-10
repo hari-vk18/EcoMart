@@ -60,6 +60,7 @@ public class ImageService implements IImageService {
 
 				String buildDownloadUrl = "/api/v1/images/image/download/";
 				String downloadUrl = buildDownloadUrl + image.getId();
+				image.setDownloadUrl(downloadUrl);
 				Image savedImage = imageRepository.save(image);
 
 				savedImage.setDownloadUrl(buildDownloadUrl + savedImage.getId());
