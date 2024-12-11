@@ -16,5 +16,5 @@ public interface ICategoryService {
 
 	List<Category> getAllCategories();
 
-	void deleteCategory(Long id);
+	void deleteCategoryById(Long id);
 }
