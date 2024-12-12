@@ -2,6 +2,8 @@ package com.project.EcoMart.Model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,19 +18,13 @@ public class Category {
 	private Long id;
 	private String name;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "category")
 	private List<Product> products;
 
 	public Category() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public Category(Long id, String name, List<Product> products) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.products = products;
 	}
 
 	public Category(String name2) {
