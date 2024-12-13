@@ -3,6 +3,7 @@ package com.project.EcoMart.Service.product;
 import java.util.List;
 
 import com.project.EcoMart.Model.Product;
+import com.project.EcoMart.dtos.ProductDto;
 import com.project.EcoMart.request.AddProductRequest;
 import com.project.EcoMart.request.UpdateProductRequest;
 
@@ -29,5 +30,9 @@ public interface IProductService {
 	List<Product> getProductsByNameAndBrand(String name, String brand);
 
 	Long countProductsByBrandAndName(String brand, String name);
+
+	ProductDto convertToDto(Product product);
+
+	List<ProductDto> getConvertedDto(List<Product> products);
 
 }
