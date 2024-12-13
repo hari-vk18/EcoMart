@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.EcoMart.Model.Image;
-
-import dto.ImageDto;
+import com.project.EcoMart.dtos.ImageDto;
 
 public interface IImageService {
 
