@@ -1,5 +1,7 @@
 package com.project.EcoMart.Service.cart;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,14 +60,34 @@ public class CartItemService implements ICartItemService {
 
 		Cart cart = cartService.getCart(cartId);
 
-		CartItem itemToRemove = cart.getItems().stream().filter(item -> item.getProduct().getId().equals(productId))
-				.findFirst().orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+		CartItem itemToRemove = getCartItem(cartId, productId);
+		cart.removeItem(itemToRemove);
+		cartRepository.save(cart);
 
 	}
 
 	@Override
 	public void updateItemQuantity(Long cartId, Long productId, int quantity) {
 		// TODO Auto-generated method stub
+		Cart cart = cartRepository.getById(cartId);
+
+		cart.getItems().stream().filter(item -> item.getProduct().getId().equals(productId)).findFirst()
+				.ifPresent(item -> {
+					item.setQuantity(quantity);
+					item.setUnitPrice(item.getProduct().getPrice());
+					item.setTotalPrice();
+				});
+
+		BigDecimal totalAmount = cart.getTotalAmount();
+		cart.setTotalAmount(totalAmount);
+		cartRepository.save(cart);
+	}
+
+	@Override
+	public CartItem getCartItem(Long cartId, Long productId) {
+		Cart cart = cartService.getCart(cartId);
+		return cart.getItems().stream().filter(item -> item.getProduct().getId().equals(productId)).findFirst()
+				.orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
 	}
 
