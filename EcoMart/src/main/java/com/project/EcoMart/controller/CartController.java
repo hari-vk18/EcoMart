@@ -32,7 +32,6 @@ public class CartController {
 			// TODO Auto-generated catch block
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), cartId));
 		}
-
 	}
 
 	@DeleteMapping("/{cartId}/clear")
