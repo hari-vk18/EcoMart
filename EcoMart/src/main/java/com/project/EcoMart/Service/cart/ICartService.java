@@ -11,4 +11,6 @@ public interface ICartService {
 	void cleatCart(Long id);
 
 	BigDecimal getTotalPrice(Long id);
+
+	Long initializeNewCart();
 }
