@@ -2,7 +2,8 @@ package com.project.EcoMart.Model;
 
 import java.math.BigDecimal;
 
-import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,8 @@ public class CartItem {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonIgnore
+	@ManyToOne
 	@JoinColumn(name = "cart_id")
 	private Cart cart;
 
@@ -71,9 +73,9 @@ public class CartItem {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(BigDecimal totalPrice) {
-		this.totalPrice = totalPrice;
-	}
+//	public void setTotalPrice(BigDecimal totalPrice) {
+//		this.totalPrice = totalPrice;
+//	}
 
 	public Product getProduct() {
 		return product;
