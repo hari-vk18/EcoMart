@@ -32,7 +32,7 @@ public class CartItemService implements ICartItemService {
 	public void addItemToCart(Long cartId, Long productId, int quantity) {
 		// TODO Auto-generated method stub
 
-		Cart cart = cartService.getCart(cartId);
+		Cart cart = cartService.getOrInitializeCart(cartId);
 		Product product = productService.getProductById(productId);
 		CartItem cartItem = cart.getItems().stream().filter(item -> item.getProduct().getId().equals(productId))
 				.findFirst().orElse(new CartItem());
@@ -56,7 +56,14 @@ public class CartItemService implements ICartItemService {
 		Cart cart = cartService.getCart(cartId);
 		CartItem itemToRemove = getCartItem(cartId, productId);
 		cart.removeItem(itemToRemove);
-		cartRepository.save(cart);
+		if (cart.getItems().isEmpty()) {
+			// Clear the cart instead of deleting it
+			cart.getItems().clear();
+			cart.setTotalAmount(BigDecimal.ZERO);
+			cartRepository.save(cart);
+		} else {
+			cartRepository.save(cart); // Save the updated cart if not empty
+		}
 
 	}
 
@@ -81,7 +88,6 @@ public class CartItemService implements ICartItemService {
 		Cart cart = cartService.getCart(cartId);
 		return cart.getItems().stream().filter(item -> item.getProduct().getId().equals(productId)).findFirst()
 				.orElseThrow(() -> new ResourceNotFoundException("Item not found"));
-
 	}
 
 }
