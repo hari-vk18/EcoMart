@@ -30,9 +30,6 @@ public class CartItemController {
 	public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId,
 			@RequestParam Long productId, @RequestParam int quantity) {
 		try {
-			if (cartId == null) {
-				cartId = cartService.initializeNewCart();
-			}
 			cartItemService.addItemToCart(cartId, productId, quantity);
 			return ResponseEntity.ok(new ApiResponse("Add Item Success", null));
 		} catch (ResourceNotFoundException e) {
