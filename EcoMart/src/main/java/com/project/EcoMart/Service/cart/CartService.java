@@ -3,8 +3,6 @@ package com.project.EcoMart.Service.cart;
 import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +10,6 @@ import com.project.EcoMart.Model.Cart;
 import com.project.EcoMart.exceptions.ResourceNotFoundException;
 import com.project.EcoMart.repository.CartItemRepository;
 import com.project.EcoMart.repository.CartRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class CartService implements ICartService {
@@ -26,7 +22,7 @@ public class CartService implements ICartService {
 
 	private AtomicLong cartIdGenerator = new AtomicLong(0);
 
-	private static final Logger log = LoggerFactory.getLogger(CartService.class);
+//	private static final Logger log = LoggerFactory.getLogger(CartService.class);
 
 	@Override
 	public Cart getCart(Long id) {
@@ -53,14 +49,34 @@ public class CartService implements ICartService {
 		return cart.getTotalAmount();
 	}
 
-	@Transactional
 	@Override
 	public Long initializeNewCart() {
 		Cart newCart = new Cart();
+//		newCart.setTotalAmount(new BigDecimal("100.00"));
 		Long newCartId = cartIdGenerator.incrementAndGet();
-		newCart.setId(newCartId);
 		cartRepository.save(newCart);
+		newCart.setId(newCartId);
+//		cartRepository.save(newCart);
 		return newCartId;
 	}
 
+	@Override
+	public Cart getOrInitializeCart(Long cartId) {
+		if (cartId != null) {
+			return getCart(cartId); // Reuse existing cart
+		}
+
+		// Check if there's any existing empty cart
+		Cart emptyCart = cartRepository.findAll().stream().filter(cart -> cart.getItems().isEmpty()).findFirst()
+				.orElse(null);
+
+		if (emptyCart != null) {
+			return emptyCart; // Reuse the empty cart
+		}
+
+		// Create a new cart if no empty cart exists
+		Cart newCart = new Cart();
+		cartRepository.save(newCart);
+		return newCart;
+	}
 }
