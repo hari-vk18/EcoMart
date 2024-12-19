@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.project.EcoMart.Model.Cart;
 import com.project.EcoMart.Model.Order;
 import com.project.EcoMart.Model.OrderItem;
 import com.project.EcoMart.exceptions.ResourceNotFoundException;
@@ -19,11 +18,8 @@ public class OrderService implements IOrderService {
 	@Override
 	public Order placeOrder(Long userId) {
 		// TODO Auto-generated method stub
+
 		return null;
-	}
-
-	private List<OrderItem> createOrderItems(Order order, Cart cart) {
-
 	}
 
 	private BigDecimal calculateTotalAmount(List<OrderItem> orderItemList) {
