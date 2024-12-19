@@ -45,13 +45,13 @@ public class CartController {
 	}
 
 	@GetMapping("/{cartId}/cart/total-price")
-	public ResponseEntity<ApiResponse> getTotalPrice(@PathVariable Long cardId) {
+	public ResponseEntity<ApiResponse> getTotalPrice(@PathVariable Long cartId) {
 		try {
-			BigDecimal totalPrice = cartService.getTotalPrice(cardId);
+			BigDecimal totalPrice = cartService.getTotalPrice(cartId);
 			return ResponseEntity.ok(new ApiResponse("Success!", totalPrice));
 		} catch (ResourceNotFoundException e) {
 			// TODO: handle exception
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), cardId));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), cartId));
 		}
 	}
 
