@@ -11,6 +11,8 @@ import com.project.EcoMart.exceptions.ResourceNotFoundException;
 import com.project.EcoMart.repository.CartItemRepository;
 import com.project.EcoMart.repository.CartRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class CartService implements ICartService {
 
@@ -33,6 +35,7 @@ public class CartService implements ICartService {
 		return cartRepository.save(cart);
 	}
 
+	@Transactional
 	@Override
 	public void cleatCart(Long id) {
 		// TODO Auto-generated method stub
